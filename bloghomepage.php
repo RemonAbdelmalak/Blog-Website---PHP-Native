@@ -2,8 +2,12 @@
 
 include("auth_session.php");
 require_once("db.php");
-$query = "select * from users";
-$result = mysqli_query($con,$query);
+// $query = "select * from blogs";
+// $result = mysqli_query($con,$query);
+$sql = "SELECT blogs.id, blogs.title, blogs.body, blogs.cateid, blogs.brief ,categories.catename AS cateid 
+    FROM blogs
+    INNER JOIN categories ON blogs.cateid=categories.id  ORDER BY id DESC;";
+$resultQuery = mysqli_query($con, $sql);
 
 ?>    
 <!doctype html>
@@ -14,7 +18,7 @@ $result = mysqli_query($con,$query);
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.104.2">
-    <title>Blog Template · Bootstrap v5.2</title>
+    <title>Blogs</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/blog/">
 
@@ -95,10 +99,13 @@ $result = mysqli_query($con,$query);
 <div class="container">
   <header class="blog-header lh-1 py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
-       <div class="col-11 text-center">
+    <div class="col-4 pt-1">
+        <a class="btn btn-sm btn-outline-secondary" href="#">Categories</a>
+      </div>
+       <div class="col-4 text-center">
         <h1 class="blog-header-logo text-dark">Blogs</h1>
       </div>
-      <div class="col-1 d-flex justify-content-end align-items-center">
+      <div class="col-4 d-flex justify-content-end align-items-center">
         <h5 class="text text-secondary"><?php echo date("d/m/Y") ?></h5>
 
       </div>
@@ -108,10 +115,16 @@ $result = mysqli_query($con,$query);
 </div>
 
 <main class="container">
-  <div class="p-4 p-md-5 mb-4 rounded text-bg-primary">
+  <div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
     <div class="col-md-6 px-0">
-      <h1 class="display-4 fst-italic">Easy Programing</h1>
-      <p class="lead my-3">In this blog we talk about bootstrap and other things that helps in coding to become easy </p>
+    <?php 
+          
+          $rowcat = mysqli_fetch_assoc($resultQuery)
+          
+          ?>
+          <h1 class="display-4 fst-italic">Newest Blogs</h1>
+          <h1 class="display-6 "><?php echo $rowcat['title']?></h1>
+      <p class="lead my-3"><?php echo $rowcat['brief']?></p>
       <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
     </div>
   </div>
@@ -120,30 +133,30 @@ $result = mysqli_query($con,$query);
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-danger">World</strong>
-          <h3 class="mb-0">Wars</h3>
-          <div class="mb-1 text-muted">Oct 10</div>
-          <p class="card-text mb-auto">We live in a world that is not full of peace so here we talk about the wars from cold wars to world distractions wars.</p>
+          <?php 
+          
+          $rowcat = mysqli_fetch_assoc($resultQuery)
+          
+          ?>
+          <strong class="d-inline-block mb-2 text-success"><?php echo $rowcat['cateid']?></strong>
+            <h3 class="mb-0"><?php echo $rowcat['title']?></h3>
+            <p class="mb-auto"><?php echo $rowcat['brief']?></p>
           <a href="#" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-          <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#FFEB3B"/><text x="50%" y="50%" fill="#55595c" dy=".3em">by David</text></svg>
-
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-success">History</strong>
-          <h3 class="mb-0">Pyramids</h3>
-          <div class="mb-1 text-muted">Oct 8</div>
-          <p class="mb-auto">How did the Pyramids built? Did acient egyptians had communications with alians ? all is that will be answred here.</p>
+          <?php 
+          
+          $rowcat = mysqli_fetch_assoc($resultQuery)
+          
+          ?>
+          <strong class="d-inline-block mb-2 text-danger"><?php echo $rowcat['cateid']?></strong>
+            <h3 class="mb-0"><?php echo $rowcat['title']?></h3>
+            <p class="mb-auto"><?php echo $rowcat['brief']?></p>
           <a href="#" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-          <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#F44336"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">By Andrew</text></svg>
-
         </div>
       </div>
     </div>
@@ -156,12 +169,17 @@ $result = mysqli_query($con,$query);
       </h3>
 
       <article class="blog-post">
-        <h2 class="blog-post-title mb-1">Sample blog post</h2>
-        <p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
-
-        <p>This blog post shows a few different types of content that’s supported and styled with Bootstrap. Basic typography, lists, tables, images, code, and more are all supported as expected.</p>
-        <hr>
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
+          <?php 
+          
+            while($rowcat = mysqli_fetch_assoc($resultQuery))
+            {
+            ?>
+            <h2 class="blog-post-title mb-1"><?php echo $rowcat['title']?></h2>
+            <p><?php echo $rowcat['body']?></p>
+            <hr>
+            <?php
+            }
+            ?>
     </div>
 
     <div class="col-md-4">
