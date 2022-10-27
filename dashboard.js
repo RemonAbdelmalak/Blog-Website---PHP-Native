@@ -11,7 +11,7 @@
   const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: [
+      labels: [f
         'Sunday',
         'Monday',
         'Tuesday',

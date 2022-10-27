@@ -2,9 +2,10 @@
 
 include("auth_session.php");
 require_once("db.php");
-$query = "select * from users";
+$query = "SELECT * FROM users";
 $result = mysqli_query($con,$query);
-
+$resultQuery = mysqli_fetch_assoc($result);
+// var_dump($result);
 
 ?>
 
@@ -134,47 +135,47 @@ $result = mysqli_query($con,$query);
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <a href="adduser.php" class="btn btn-outline-primary my-2">Add new User</a>
-        <h1 class="h2">Dashboard</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">          
-          </div>
+    <div class="container">
+        <div class="row">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-2 font-weight-bold text-priamry mt-2">Save</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="POST">
+                            <div class="d-flex flex-column">
+                                <input type="text" name="username" placeholder="UserName" value="<?=$resultQuery['username']?>" class="from-control"><br />
+                                <input type="text" name="useremail" placeholder="Useremail" value="<?=$resultQuery['email']?>" class="from-control"><br />
+                            </div>
+                            <div>
+                                <input type="submit" name="edit" value="Save" class="btn btn-primary">
+                                <a href="dashboardadmin.php" class="btn btn-secondary">Back</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+<?php 
 
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">User Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">edit</th>
-              <th scope="col">delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <?php 
+if(isset($_POST['edit'])){
+    $username = mysqli_real_escape_string($con, $_POST['username']);
+    $useremail = mysqli_real_escape_string($con, $_POST['useremail']);
+    
+        $sql3="UPDATE users SET username='$username', email='$useremail' WHERE id='$id';";
+        // var_dump($sql3);
+        $query3 = mysqli_query($con,$sql3);
+        if($query3){
+           
+           echo "<script>window.location.href= 'dashboardadmin.php';</script>";
 
-                while($row = mysqli_fetch_assoc($result))
-                {
-                ?>
+        }else{
+            echo "Failed, PLease try again !";
+        }
+}
 
-                <td><?php echo $row['id']?></td>
-                <td><?php echo $row['username']?></td>
-                <td><?php echo $row['email']?></td>
-                <td><a href="edituser.php?id=<?=$row['id']?>" class="btn btn-primary">edit</td>
-                <td><a href="deluser.php?a=<?php echo $row['username'];?>" class="btn btn-danger">delete</td>
-
-                </tr>
-              <?php
-                }
-              ?>
-          </tbody>
-        </table>
-      </div>
+?>
+    </div> 
     </main>
   </div>
 </div>

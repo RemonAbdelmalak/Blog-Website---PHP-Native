@@ -1,10 +1,8 @@
 <?php
 
-include("auth_session.php");
 require_once("db.php");
-$sql = "SELECT blogs.id, blogs.title, blogs.body, blogs.cateid, blogs.brief ,categories.catename AS cateid 
-    FROM blogs 
-    INNER JOIN categories ON blogs.cateid=categories.id ORDER BY id DESC ;";
+$id=$_GET['id'];
+$sql = "SELECT * FROM blogs WHERE cateid='$id'";
 $resultQuery = mysqli_query($con, $sql);
 
 ?>
@@ -98,97 +96,36 @@ $resultQuery = mysqli_query($con, $sql);
   <header class="blog-header lh-1 py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
     <div class="col-4 pt-1">
-        <a class="btn btn-sm btn-outline-success" href="categories.php">Categories</a>
+        <a class="btn btn-sm btn-outline-secondary" href="categories.php">Categories</a>
       </div>
        <div class="col-4 text-center">
         <a class="blog-header-logo text-dark" href="bloghomepage.php">Blogs</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
-      <div class="dropdown">
-      <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Hey, <?php echo $_SESSION['username']; ?>!
-      </a>
-      <ul class="dropdown-menu">
-      <?php 
-          
-          $rowcat = mysqli_fetch_assoc($resultQuery)
-          
-          ?>
-        <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-      </ul>
-    </div>
+        <h5 class="text text-secondary"><?php echo date("d/m/Y") ?></h5>
+
       </div>
     </div>
   </header>
+    </nav>
 </div>
 
 <main class="container">
-  <div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
-    <div class="col-md-6 px-0">
-    <?php 
-          
-          $rowcat = mysqli_fetch_assoc($resultQuery)
-          
-          ?>
-          <h1 class=" fst-italic">Newest Blogs</h1>
-          <h1 class=" "><?php echo $rowcat['title']?></h1>
-      <p class=" my-3"><?php echo $rowcat['brief']?></p>
-      <p class=" mb-0"><a href="conreadingblog.php?id=<?= $rowcat['id'] ?>" class="text-white fw-bold">Continue reading...</a></p>
-    </div>
-  </div>
-
-  <div class="row mb-2">
-    <div class="col-md-6">
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <?php 
-          
-          $rowcat = mysqli_fetch_assoc($resultQuery)
-          
-          ?>
-          <strong class="d-inline-block mb-2 text-success"><?php echo $rowcat['cateid']?></strong>
-            <h3 class="mb-0"><?php echo $rowcat['title']?></h3>
-            <p class="mb-auto"><?php echo $rowcat['brief']?></p>
-          <a href="conreadingblog.php?id=<?= $rowcat['id'] ?>" class="stretched-link">Continue reading</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <?php 
-          
-          $rowcat = mysqli_fetch_assoc($resultQuery)
-          
-          ?>
-          <strong class="d-inline-block mb-2 text-danger"><?php echo $rowcat['cateid']?></strong>
-            <h3 class="mb-0"><?php echo $rowcat['title']?></h3>
-            <p class="mb-auto"><?php echo $rowcat['brief']?></p>
-          <a href="conreadingblog.php?id=<?= $rowcat['id'] ?>" class="stretched-link">Continue reading</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="row g-5">
     <div class="col-md-8">
-      <h3 class="pb-4 mb-4 fst-italic border-bottom">
-        From the Firehose
-      </h3>
-
-      <article class="blog-post">
-          <?php 
+    <?php 
           
-            for ($x=1; $x<=$rowcat = mysqli_fetch_assoc($resultQuery); $x++)
-            {
-            ?>
-            <h2 class="blog-post-title mb-1"><?php echo $rowcat['title']?></h2>
-            <p><?php echo $rowcat['brief']?></p>
-            <p class="lead mb-0"><a href="conreadingblog.php?id=<?= $rowcat['id'] ?>" class="text-blue fw-bold">Continue reading...</a></p>
-            <hr>
-            <?php
-            }
-            ?>
+          while($rowcat = mysqli_fetch_assoc($resultQuery)){
+            
+          ?>
+          <h2 class="blog-post-title mb-1"><?php echo $rowcat['title']?></h2>
+          <p><?php echo $rowcat['brief']?></p>
+          <p class=" mb-0"><a href="conreadingblog.php?id=<?= $rowcat['id'] ?>" class="fw-bold">Continue reading...</a></p>
+          <hr>
+          <?php
+          }
+
+          ?>
     </div>
 
     <div class="col-md-4">
@@ -210,8 +147,6 @@ $resultQuery = mysqli_query($con, $sql);
     </div>
   </div>
 
-
-
 </main>
 
 <footer class="blog-footer">
@@ -220,10 +155,6 @@ $resultQuery = mysqli_query($con, $sql);
     <a href="#">Back to top</a>
   </p>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-      <script src="./dashboard.js"></script> 
-  </body>
 
+  </body>
 </html>

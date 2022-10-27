@@ -96,14 +96,22 @@ $resultQuery = mysqli_query($con, $sql);
   <header class="blog-header lh-1 py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
     <div class="col-4 pt-1">
-        <a class="btn btn-sm btn-outline-secondary active" href="categories.php">Categories</a>
+        <a class="btn btn-sm btn-outline-success active" href="categories.php">Categories</a>
       </div>
        <div class="col-4 text-center">
        <a class="blog-header-logo text-dark" href="bloghomepage.php">Blogs</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
-        <h5 class="text text-secondary"><?php echo date("d/m/Y") ?></h5>
-
+        
+      <div class="dropdown">
+      <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Hey, <?php echo $_SESSION['username']; ?>!
+      </a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+      </ul>
+    </div>
+</div>
       </div>
     </div>
   </header>
@@ -127,6 +135,7 @@ $resultQuery = mysqli_query($con, $sql);
         <div class="col p-4 d-flex flex-column position-static">
             <h3 class="d-inline-block mt-4 text-center text-danger"><?php echo $rowcat['catename']?></h3>
             <p class="mt-5 text-center"><?php echo $rowcat['catebrief']?></p>
+            <a class="btn mt-3 btn-center btn-outline-primary" href="blogbycat.php?id=<?= $rowcat['id'] ?>">Explore the blogs</a>
         </div>
       </div>
           <?php
@@ -161,6 +170,10 @@ $resultQuery = mysqli_query($con, $sql);
     <a href="#">Back to top</a>
   </p>
 </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+      <script src="./dashboard.js"></script> 
+   </body>
   </body>
 </html>

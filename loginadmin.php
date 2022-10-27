@@ -15,8 +15,8 @@
         $password = stripslashes($_REQUEST['password']);
         $password = mysqli_real_escape_string($con, $password);
 
-        $query    = "SELECT * FROM `users` WHERE username='$username'
-                     AND password='" . md5($password) . "'";
+        $query    = "SELECT * FROM `admin` WHERE username='$username'
+        AND password='" . md5($password) . "'";
         $result = mysqli_query($con, $query);
         $rows = mysqli_num_rows($result);
         if ($rows == 1) {
@@ -26,7 +26,7 @@
         } else {
             echo "<div class='form'>
                   <h3>Incorrect Username/password.</h3><br/>
-                  <p class='link'>Click here to <a href='login.php'>Login</a> again.</p>
+                  <p class='link'>Click here to <a href='loginadmin.php'>Login</a> again.</p>
                   </div>";
         }
     } else {
@@ -36,7 +36,7 @@
         <input type="text" class="login-input" name="username" placeholder="Username" autofocus="true"/>
         <input type="password" class="login-input" name="password" placeholder="Password"/>
         <input type="submit" value="Login" name="submit" class="login-button"/>
-        <p class="link"><a href="registration.php">New Registration</a></p>
+        <p class="link"><a href="registrationadmin.php">New Registration</a></p>
   </form>
 <?php
     }
