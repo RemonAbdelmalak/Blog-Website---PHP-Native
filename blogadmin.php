@@ -2,10 +2,9 @@
 
 include("auth_session.php");
 require_once("db.php");
-$query = "SELECT * FROM users";
+$query = "SELECT * FROM blogs";
 $result = mysqli_query($con,$query);
-$resultQuery = mysqli_fetch_assoc($result);
-// var_dump($result);
+
 
 ?>
 
@@ -113,19 +112,19 @@ $resultQuery = mysqli_fetch_assoc($result);
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="dashboardadmin.php">
+            <a class="nav-link" aria-current="page" href="dashboardadmin.php">
               <span data-feather="home" class="align-text-bottom"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link active" href="blogadmin.php">
               <span data-feather="file" class="align-text-bottom"></span>
               Blogs
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="category.php">
               <span data-feather="tag" class="align-text-bottom"></span>
                Category
             </a>
@@ -135,49 +134,46 @@ $resultQuery = mysqli_fetch_assoc($result);
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div class="container">
-        <div class="row">
-                <div class="card mt-5">
-                    <div class="card-header">
-                        <h6 class="mb-2 font-weight-bold text-priamry mt-2">Save</h6>
-                    </div>
-                    <div class="card-body">
-                        <form action="" method="POST">
-                            <div class="d-flex flex-column">
-                                <input type="text" name="username" placeholder="UserName" value="" class="from-control"><br />
-                                <input type="text" name="useremail" placeholder="Useremail" value="" class="from-control"><br />
-                                <input type="text" name="userpassword" placeholder="Password" value="" class="from-control"><br />
-                            </div>
-                            <div>
-                                <input type="submit" name="edit" value="Save" class="btn btn-primary">
-                                <a href="dashboardadmin.php" class="btn btn-secondary">Back</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <a href="addblog.php" class="btn btn-outline-primary my-2">Add new Blog</a>
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">          
+          </div>
         </div>
-<?php 
+      </div>
 
-if(isset($_POST['edit'])){
-    $username = mysqli_real_escape_string($con, $_POST['username']);
-    $useremail = mysqli_real_escape_string($con, $_POST['useremail']);
-    $userpassword = mysqli_real_escape_string($con, $_POST['userpassword']);
-    
-        $sql3="INSERT users SET username='$username', email='$useremail', password='$userpassword';";
-        // var_dump($sql3);
-        $query3 = mysqli_query($con,$sql3);
-        if($query3){
-           
-           echo "<script>window.location.href= 'dashboardadmin.php';</script>";
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">User Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">edit</th>
+              <th scope="col">delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <?php 
 
-        }else{
-            echo "Failed, PLease try again !";
-        }
-}
+                while($row = mysqli_fetch_assoc($result))
+                {
+                ?>
 
-?>
-    </div> 
+                <td><?php echo $row['id']?></td>
+                <td><?php echo $row['title']?></td>
+                <td><?php echo $row['brief']?></td>
+                <td><a href="editblog.php?id=<?=$row['id']?>" class="btn btn-primary">edit</td>
+                <td><a href="delblog.php?id=<?php echo $row['id']; ?>" class="btn btn-danger">delete</td>
+                </tr>
+              <?php
+                }
+              ?>
+          </tbody>
+        </table>
+      </div>
     </main>
   </div>
 </div>

@@ -2,10 +2,22 @@
 
 include("auth_session.php");
 require_once("db.php");
-$query = "SELECT * FROM users";
-$result = mysqli_query($con,$query);
-$resultQuery = mysqli_fetch_assoc($result);
+// $id = $_GET['id'];
+// $query = "SELECT * FROM blog";
+// $result = mysqli_query($con,$query);
+// $resultQuery = mysqli_fetch_assoc($result);
 // var_dump($result);
+
+
+$sql = "SELECT * FROM categories";
+$query = mysqli_query($con, $sql);
+
+$sql2 = "SELECT blogs.id, blogs.title, blogs.body, blogs.cateid, blogs.brief ,categories.catename AS cateid 
+    FROM blogs 
+    INNER JOIN categories ON blogs.cateid=categories.id;";
+$query2 = mysqli_query($con, $sql2);
+$resultQuery = mysqli_fetch_assoc($query2);
+
 
 ?>
 
@@ -144,13 +156,25 @@ $resultQuery = mysqli_fetch_assoc($result);
                     <div class="card-body">
                         <form action="" method="POST">
                             <div class="d-flex flex-column">
-                                <input type="text" name="username" placeholder="UserName" value="" class="from-control"><br />
-                                <input type="text" name="useremail" placeholder="Useremail" value="" class="from-control"><br />
-                                <input type="text" name="userpassword" placeholder="Password" value="" class="from-control"><br />
+                                <input type="text" name="title" placeholder="Title" value="" class="from-control"><br />
+                                <input type="text" name="body" placeholder="Body" value="" class="from-control"><br />
+                                <select class="form-control" name="category">
+                                    <?php
+                                    while($cats=mysqli_fetch_assoc($query)) { ?>
+                                    <option value="<?=$cats['id'] ?>"
+                                        <?= ($resultQuery['cateid']==$cats['catename'])?"
+                                            selected":'';?>>
+                                            <?= $cats['catename'] ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                </select>
+                                <input type="text" name="brief" placeholder="Brief" value=""><br />
                             </div>
                             <div>
                                 <input type="submit" name="edit" value="Save" class="btn btn-primary">
-                                <a href="dashboardadmin.php" class="btn btn-secondary">Back</a>
+                                <a href="blogadmin.php" class="btn btn-secondary">Back</a>
                             </div>
                         </form>
                     </div>
@@ -160,16 +184,17 @@ $resultQuery = mysqli_fetch_assoc($result);
 <?php 
 
 if(isset($_POST['edit'])){
-    $username = mysqli_real_escape_string($con, $_POST['username']);
-    $useremail = mysqli_real_escape_string($con, $_POST['useremail']);
-    $userpassword = mysqli_real_escape_string($con, $_POST['userpassword']);
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $body = mysqli_real_escape_string($con, $_POST['body']);
+    $cateid = mysqli_real_escape_string($con, $_POST['category']);
+    $brief = mysqli_real_escape_string($con, $_POST['brief']);
     
-        $sql3="INSERT users SET username='$username', email='$useremail', password='$userpassword';";
+        $sql3="INSERT blogs SET title='$title',body='$body', cateid='$cateid' ,brief='$brief';";
         // var_dump($sql3);
         $query3 = mysqli_query($con,$sql3);
         if($query3){
            
-           echo "<script>window.location.href= 'dashboardadmin.php';</script>";
+           echo "<script>window.location.href= 'blogadmin.php';</script>";
 
         }else{
             echo "Failed, PLease try again !";

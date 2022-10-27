@@ -2,7 +2,7 @@
 
 include("auth_session.php");
 require_once("db.php");
-$query = "select * from users";
+$query = "SELECT * FROM users";
 $result = mysqli_query($con,$query);
 
 
@@ -118,13 +118,13 @@ $result = mysqli_query($con,$query);
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="blogadmin.php">
               <span data-feather="file" class="align-text-bottom"></span>
               Blogs
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="category.php">
               <span data-feather="tag" class="align-text-bottom"></span>
                Category
             </a>
@@ -165,9 +165,8 @@ $result = mysqli_query($con,$query);
                 <td><?php echo $row['id']?></td>
                 <td><?php echo $row['username']?></td>
                 <td><?php echo $row['email']?></td>
-                <td><a href="edituser.php?id=<?=$row['id']?>" class="btn btn-primary">edit</td>
-                <td><a href="deluser.php?a=<?php echo $row['username'];?>" class="btn btn-danger">delete</td>
-
+                <td><a href="editblog.php?id=<?=$row['id']?>" class="btn btn-primary">edit</td>
+                <td><a href="delblog.php?id=<?php echo $row['id'];?>" class="btn btn-danger">delete</td>
                 </tr>
               <?php
                 }
