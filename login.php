@@ -38,6 +38,7 @@
         <input type="password" class="login-input" name="password" placeholder="Password"/>
         <input type="submit" value="Login" name="submit" class="login-button"/>
         <p class="link"><a href="registration.php">New Registration</a></p>
+        <p class="link"><a href="loginadmin.php">Are you Admin?</a></p>
   </form>
 <?php
     }

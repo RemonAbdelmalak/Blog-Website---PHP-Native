@@ -103,7 +103,7 @@ $resultQuery = mysqli_fetch_assoc($result);
   </button>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Sign out</a>
+    <a class="nav-link px-3" href="logoutadmin.php"> Hey, <?php echo $_SESSION['username']; ?>! Sign out</a>
     </div>
   </div>
 </header>
@@ -120,13 +120,13 @@ $resultQuery = mysqli_fetch_assoc($result);
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="blogadmin.php">
               <span data-feather="file" class="align-text-bottom"></span>
               Blogs
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="categoriesadmin.php">
               <span data-feather="tag" class="align-text-bottom"></span>
                Category
             </a>

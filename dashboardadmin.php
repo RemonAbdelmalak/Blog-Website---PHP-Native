@@ -101,7 +101,7 @@ $result = mysqli_query($con,$query);
   </button>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Sign out</a>
+      <a class="nav-link px-3" href="logoutadmin.php"> Hey, <?php echo $_SESSION['username']; ?>! Sign out</a>
     </div>
   </div>
 </header>
@@ -124,7 +124,7 @@ $result = mysqli_query($con,$query);
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="category.php">
+            <a class="nav-link" href="categoriesadmin.php">
               <span data-feather="tag" class="align-text-bottom"></span>
                Category
             </a>
@@ -165,7 +165,7 @@ $result = mysqli_query($con,$query);
                 <td><?php echo $row['id']?></td>
                 <td><?php echo $row['username']?></td>
                 <td><?php echo $row['email']?></td>
-                <td><a href="editblog.php?id=<?=$row['id']?>" class="btn btn-primary">edit</td>
+                <td><a href="edituser.php?id=<?=$row['id']?>" class="btn btn-primary">edit</td>
                 <td><a href="delblog.php?id=<?php echo $row['id'];?>" class="btn btn-danger">delete</td>
                 </tr>
               <?php

@@ -2,23 +2,10 @@
 
 include("auth_session.php");
 require_once("db.php");
-// $id = $_GET['id'];
-// $query = "SELECT * FROM blog";
-// $result = mysqli_query($con,$query);
-// $resultQuery = mysqli_fetch_assoc($result);
+$query = "SELECT * FROM categories";
+$result = mysqli_query($con,$query);
+$resultQuery = mysqli_fetch_assoc($result);
 // var_dump($result);
-
-
-$sql = "SELECT * FROM categories";
-$query = mysqli_query($con, $sql);
-
-$id = $_GET['id'];
-$sql2 = "SELECT blogs.id, blogs.title, blogs.body, blogs.cateid, blogs.brief ,categories.catename AS cateid 
-    FROM blogs 
-    INNER JOIN categories ON blogs.id='$id';";
-$query2 = mysqli_query($con, $sql2);
-$resultQuery = mysqli_fetch_assoc($query2);
-
 
 ?>
 
@@ -132,13 +119,13 @@ $resultQuery = mysqli_fetch_assoc($query2);
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="blogadmin.php">
+              <a class="nav-link" href="blogadmin.php">
               <span data-feather="file" class="align-text-bottom"></span>
               Blogs
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="categoriesadmin.php">
+            <a class="nav-link active" href="categoriesadmin.php">
               <span data-feather="tag" class="align-text-bottom"></span>
                Category
             </a>
@@ -157,25 +144,12 @@ $resultQuery = mysqli_fetch_assoc($query2);
                     <div class="card-body">
                         <form action="" method="POST">
                             <div class="d-flex flex-column">
-                                <input type="text" name="title" placeholder="Title" value="<?=$resultQuery['title']?>" class="from-control"><br />
-                                <input type="text" name="body" placeholder="Body" value="<?=$resultQuery['body']?>" class="from-control"><br />
-                                <select class="form-control" name="category">
-                                    <?php
-                                    while($cats=mysqli_fetch_assoc($query)) { ?>
-                                    <option value="<?=$cats['id'] ?>"
-                                        <?= ($resultQuery['cateid']==$cats['catename'])?"
-                                            selected":'';?>>
-                                            <?= $cats['catename'] ?>
-                                            </option>
-                                            <?php
-                                        }
-                                        ?>
-                                </select>
-                                <input type="text" name="brief" placeholder="Brief" value="<?=$resultQuery['brief']?>"><br />
+                                <input type="text" name="catename" placeholder="CateName" value="" class="from-control"><br />
+                                <input type="text" name="catebrief" placeholder="CateBrief" value="" class="from-control"><br />
                             </div>
                             <div>
                                 <input type="submit" name="edit" value="Save" class="btn btn-primary">
-                                <a href="dashboardadmin.php" class="btn btn-secondary">Back</a>
+                                <a href="categoriesadmin.php" class="btn btn-secondary">Back</a>
                             </div>
                         </form>
                     </div>
@@ -185,17 +159,15 @@ $resultQuery = mysqli_fetch_assoc($query2);
 <?php 
 
 if(isset($_POST['edit'])){
-    $title = mysqli_real_escape_string($con, $_POST['title']);
-    $body = mysqli_real_escape_string($con, $_POST['body']);
-    $cateid = mysqli_real_escape_string($con, $_POST['category']);
-    $brief = mysqli_real_escape_string($con, $_POST['brief']);
+    $catename = mysqli_real_escape_string($con, $_POST['catename']);
+    $catebrief = mysqli_real_escape_string($con, $_POST['catebrief']);
     
-        $sql3="UPDATE blogs SET title='$title',body='$body', cateid='$cateid' ,brief='$brief' WHERE id='$id';";
+        $sql3="INSERT categories SET catename='$catename', catebrief='$catebrief';";
         // var_dump($sql3);
         $query3 = mysqli_query($con,$sql3);
         if($query3){
            
-           echo "<script>window.location.href= 'blogadmin.php';</script>";
+           echo "<script>window.location.href= 'categoriesadmin.php';</script>";
 
         }else{
             echo "Failed, PLease try again !";
